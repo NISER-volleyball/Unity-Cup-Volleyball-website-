@@ -41,10 +41,37 @@ function playFusion()
     }
   overlay.classList.remove("play");
   void overlay.offsetWidth;
-  generateLightning(overlay);
+  const focus=setFusionFocus(overlay);
+  generateLightning(overlay,focus);
   overlay.classList.add("play");
 }
-function generateLightning(overlay)
+function setFusionFocus(overlay)
+{
+  const rect=overlay.getBoundingClientRect();
+  const viewHeight=window.innerHeight || document.documentElement.clientHeight;
+  const middle=rect.top+rect.height/2;
+  const centerOnScreen=middle>=0 && middle<=viewHeight;
+  const visibleTop=Math.max(rect.top,0);
+  const visibleBottom=Math.min(rect.bottom,viewHeight);
+  const hasVisiblePart=visibleBottom>visibleTop;
+  let focusY=rect.height/2;
+  let areaHeight=rect.height;
+  let startTop=-80;
+  let startBottom=rect.height+16;
+  if(!centerOnScreen && hasVisiblePart)
+    {
+      focusY=(visibleTop+visibleBottom)/2-rect.top;
+      areaHeight=visibleBottom-visibleTop;
+      startTop=visibleTop-rect.top-80;
+      startBottom=visibleBottom-rect.top+16;
+    }
+  overlay.classList.toggle("vertical",!centerOnScreen);
+  overlay.style.setProperty("--focus-y",focusY+"px");
+  overlay.style.setProperty("--start-top",startTop+"px");
+  overlay.style.setProperty("--start-bottom",startBottom+"px");
+  return {y:focusY,height:areaHeight};
+}
+function generateLightning(overlay,focus)
 {
   const svg=overlay.querySelector(".lightning-svg");
   if(!svg)
@@ -62,8 +89,9 @@ function generateLightning(overlay)
   svg.setAttribute("viewBox","0 0 "+width+" "+height);
   svg.setAttribute("preserveAspectRatio","none");
   const centerX=width/2;
-  const centerY=height/2;
-  const reach=Math.min(width,height)*0.55+Math.max(width,height)*0.15;
+  const centerY=focus ? focus.y:height/2;
+  const area=focus ? focus.height:height;
+  const reach=Math.min(width,area)*0.55+Math.max(width,area)*0.15;
   const boltCount=5+Math.floor(Math.random()*3);
   for(let i=0;i<boltCount;i++)
     {
