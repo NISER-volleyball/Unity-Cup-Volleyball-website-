@@ -34,7 +34,7 @@ html,body
 body
 {
   background-color:var(--void);
-  background-image:radial-gradient(1px 1px at 20% 30%,rgba(232,237,248,.5) 0,transparent 60%),radial-gradient(1px 1px at 70% 15%,rgba(232,237,248,.35) 0,transparent 60%),radial-gradient(1px 1px at 40% 70%,rgba(232,237,248,.4) 0,transparent 60%),radial-gradient(1px 1px at 85% 60%,rgba(232,237,248,.3) 0,transparent 60%),radial-gradient(1px 1px at 60% 85%,rgba(232,237,248,.35) 0,transparent 60%),radial-gradient(1px 1px at 10% 90%,rgba(232,237,248,.3) 0,transparent 60%),radial-gradient(ellipse 900px 600px at 12% -8%,rgba(63,164,255,.14),transparent 60%),radial-gradient(ellipse 800px 650px at 108% 35%,rgba(255,77,94,.10),transparent 60%),radial-gradient(ellipse 700px 500px at 60% 115%,rgba(155,92,255,.08),transparent 60%),linear-gradient(180deg,var(--void) 0%,var(--void-2) 100%);
+  background-image:radial-gradient(1px 1px at 20% 30%,rgba(232,237,248,.5) 0,transparent 60%),radial-gradient(1px 1px at 70% 15%,rgba(232,237,248,.35) 0,transparent 60%),radial-gradient(1px 1px at 40% 70%,rgba(232,237,248,.4) 0,transparent 60%),radial-gradient(1px 1px at 85% 60%,rgba(232,237,248,.3) 0,transparent 60%),radial-gradient(1px 1px at 60% 85%,rgba(232,237,248,.35) 0,transparent 60%),radial-gradient(1px 1px at 10% 90%,rgba(232,237,248,.3) 0,transparent 60%),radial-gradient(ellipse 900px 600px at 12% -8%,rgba(63,164,255,.14),transparent 60%),radial-gradient(ellipse 800px 650px at 108% 35%,rgba(255,77,94,.10),transparent 60%),radial-gradient(ellipse 700px 500px at 60% 115%,rgba(155,92,255,.08),transparent 60%),linear-gradient(180deg, var(--void) 0%, var(--void-2) 100%);
   background-repeat:no-repeat;
   background-attachment:fixed;
   background-size:cover;
@@ -414,7 +414,7 @@ td.pts,th.pts
 .fusion-overlay .orb
 {
   position:absolute;
-  top:50%;
+  top:var(--focus-y,50%);
   width:64px;
   height:64px;
   margin-top:-32px;
@@ -438,7 +438,7 @@ td.pts,th.pts
 .fusion-overlay .burst
 {
   position:absolute;
-  top:50%;
+  top:var(--focus-y,50%);
   left:50%;
   width:40px;
   height:40px;
@@ -450,7 +450,7 @@ td.pts,th.pts
 .fusion-overlay .shockwave
 {
   position:absolute;
-  top:50%;
+  top:var(--focus-y,50%);
   left:50%;
   width:22px;
   height:22px;
@@ -542,6 +542,83 @@ td.pts,th.pts
 .fusion-overlay.play .burst
 {
   animation:burstOut .65s ease-out .48s forwards;
+}
+.fusion-overlay.vertical .orb
+{
+  left:50%;
+  right:auto;
+  margin-left:-32px;
+  margin-top:0;
+}
+.fusion-overlay.vertical .orb-blue
+{
+  top:var(--start-top,-80px);
+}
+.fusion-overlay.vertical .orb-red
+{
+  top:var(--start-bottom,100%);
+}
+.fusion-overlay.play.vertical .orb-blue
+{
+  animation:flyBlueV .62s cubic-bezier(.3,.9,.4,1) forwards;
+}
+.fusion-overlay.play.vertical .orb-red
+{
+  animation:flyRedV .62s cubic-bezier(.3,.9,.4,1) forwards;
+}
+@keyframes flyBlueV
+{
+  0%{
+    top:var(--start-top,-80px);
+    opacity:0;
+    transform:scale(.5);
+  }
+  45%{
+    opacity:1;
+    transform:scale(1);
+  }
+  74%{
+    top:calc(var(--focus-y,50%) - 32px);
+    opacity:1;
+    transform:scale(1.15);
+  }
+  88%{
+    top:calc(var(--focus-y,50%) - 32px);
+    opacity:1;
+    transform:scale(1.05);
+  }
+  100%{
+    top:calc(var(--focus-y,50%) - 32px);
+    opacity:0;
+    transform:scale(.6);
+  }
+}
+@keyframes flyRedV
+{
+  0%{
+    top:var(--start-bottom,100%);
+    opacity:0;
+    transform:scale(.5);
+  }
+  45%{
+    opacity:1;
+    transform:scale(1);
+  }
+  74%{
+    top:calc(var(--focus-y,50%) - 32px);
+    opacity:1;
+    transform:scale(1.15);
+  }
+  88%{
+    top:calc(var(--focus-y,50%) - 32px);
+    opacity:1;
+    transform:scale(1.05);
+  }
+  100%{
+    top:calc(var(--focus-y,50%) - 32px);
+    opacity:0;
+    transform:scale(.6);
+  }
 }
 @keyframes flyBlue
 {
